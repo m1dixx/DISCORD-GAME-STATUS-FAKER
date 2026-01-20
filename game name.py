@@ -1,0 +1,28 @@
+import sys
+import os
+import tkinter as tk
+from tkinter import ttk
+
+app_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
+
+root = tk.Tk()
+root.title(app_name)
+root.geometry("300x150")
+root.resizable(False, False)
+
+root.attributes("-toolwindow", 1)
+root.attributes("-topmost", 1)
+root.after(1000, lambda: root.attributes("-topmost", 0))
+
+ttk.Label(root, text="Запущено", font=("Segoe UI", 12)).pack(pady=20)
+ttk.Label(root, text=app_name, font=("Segoe UI", 10, "bold")).pack()
+
+process_info = ttk.Label(root, text="", font=("Segoe UI", 8))
+process_info.pack(pady=10)
+
+def update_info():
+    process_info.config(text=f"PID: {os.getpid()}")
+    root.after(10000, update_info)
+
+update_info()
+root.mainloop()
